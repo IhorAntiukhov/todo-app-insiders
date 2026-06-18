@@ -9,7 +9,7 @@ export async function proxy(req: NextRequest) {
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Cookie: `access_token=${accessToken}`,
     },
   });
 

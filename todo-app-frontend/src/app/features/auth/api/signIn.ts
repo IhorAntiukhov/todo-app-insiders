@@ -16,6 +16,6 @@ export default async function signIn(email: string, password: string) {
 
   if (!response.ok) {
     const body = await response.json();
-    throw new Error(JSON.stringify(body));
+    throw new Error(body.message);
   }
 }

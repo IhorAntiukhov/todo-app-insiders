@@ -40,7 +40,6 @@ export class AuthService {
   }
 
   async signIn({ email, password }: SignInDto, response: Response) {
-    console.log(email, password);
     const existingUser = await this.findUserByEmail(email);
 
     if (!existingUser) {

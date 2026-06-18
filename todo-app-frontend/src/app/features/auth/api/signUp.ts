@@ -18,8 +18,8 @@ export default async function signUp(
     },
   );
 
-  return {
-    success: response.ok,
-    status: response.status,
-  };
+  if (!response.ok) {
+    const body = await response.json();
+    throw new Error(body.message);
+  }
 }

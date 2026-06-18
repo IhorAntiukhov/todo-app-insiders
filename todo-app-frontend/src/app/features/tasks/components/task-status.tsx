@@ -14,14 +14,16 @@ export default function TaskStatus({ status }: TaskStatusProps) {
           : status === "inProgress"
             ? "bg-blue-400"
             : "bg-green-400",
-        "px-2 py-1 rounded-full",
+        "w-full px-2 py-1 rounded-full",
       )}
     >
-      {status === "todo"
-        ? "To-Do"
-        : status === "inProgress"
-          ? "In progress"
-          : "Done"}
+      <p className="text-xs">
+        {status === "todo"
+          ? "To-Do"
+          : status === "inProgress"
+            ? "In progress"
+            : "Done"}
+      </p>
     </div>
   );
 }

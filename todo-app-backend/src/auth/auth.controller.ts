@@ -14,13 +14,7 @@ import { SignUpDto } from "./dto/signUp.dto";
 import { SignInDto } from "./dto/signIn.dto";
 import type { Response } from "express";
 import { AuthGuard } from "@nestjs/passport";
-
-interface RequestWithUser {
-  user: {
-    id: string;
-    email: string;
-  };
-}
+import type RequestWithUser from "src/common/types/requestWithUser.type";
 
 @Controller("auth")
 export class AuthController {

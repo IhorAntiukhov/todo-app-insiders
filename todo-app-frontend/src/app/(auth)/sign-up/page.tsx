@@ -12,10 +12,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function SignUpPage() {
   const router = useRouter();
+
+  const [error, setError] = useState("");
 
   const {
     control,
@@ -24,8 +27,10 @@ export default function SignUpPage() {
   } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -33,9 +38,12 @@ export default function SignUpPage() {
     mutationFn: ({ name, email, password }: SignUpFormValues) =>
       signUp(name, email, password),
     onSuccess: () => {
+      setError("");
       router.replace("/sign-in");
     },
-    onError: () => {},
+    onError: (error) => {
+      setError(error.message);
+    },
   });
 
   const handleSignUp = handleSubmit(async (formData) => {
@@ -85,6 +93,8 @@ export default function SignUpPage() {
           <Button variant="default" type="submit">
             Sign up
           </Button>
+
+          {error && <p className="text-red-500">Error: {error}</p>}
         </form>
 
         <CardFooter>

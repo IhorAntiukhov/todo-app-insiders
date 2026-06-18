@@ -1,4 +1,4 @@
-import { IsString, IsUUID, MaxLength } from "class-validator";
+import { IsOptional, IsString, MaxLength } from "class-validator";
 
 export class CreateTaskDto {
   @IsString()
@@ -6,9 +6,7 @@ export class CreateTaskDto {
   name: string;
 
   @IsString()
+  @IsOptional()
   @MaxLength(250)
   description: string;
-
-  @IsUUID()
-  userId: string;
 }

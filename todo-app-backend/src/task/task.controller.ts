@@ -8,25 +8,30 @@ import {
   Post,
   Put,
   Query,
+  Req,
+  UseGuards,
 } from "@nestjs/common";
 import { TaskService } from "./task.service";
 import { GetAllTasksDto } from "./dto/getAllTasks.dto";
 import { CreateTaskDto } from "./dto/createTask.dto";
 import { UpdateTaskDto } from "./dto/updateTask.dto";
 import { UpdateStatusDto } from "./dto/updateStatus.dto";
+import { AuthGuard } from "@nestjs/passport";
+import type RequestWithUser from "src/common/types/requestWithUser.type";
 
+@UseGuards(AuthGuard("jwt"))
 @Controller("tasks")
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get()
-  findAll(@Query() query: GetAllTasksDto) {
-    return this.taskService.findAll(query);
+  findAll(@Query() query: GetAllTasksDto, @Req() request: RequestWithUser) {
+    return this.taskService.findAll(query, request.user.id);
   }
 
   @Post()
-  create(@Body() body: CreateTaskDto) {
-    return this.taskService.create(body);
+  create(@Body() body: CreateTaskDto, @Req() request: RequestWithUser) {
+    return this.taskService.create(body, request.user.id);
   }
 
   @Put(":id")

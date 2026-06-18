@@ -1,4 +1,4 @@
-import { IsString, MaxLength } from "class-validator";
+import { IsOptional, IsString, MaxLength } from "class-validator";
 
 export class UpdateTaskDto {
   @IsString()
@@ -6,6 +6,7 @@ export class UpdateTaskDto {
   name: string;
 
   @IsString()
+  @IsOptional()
   @MaxLength(250)
   description: string;
 }

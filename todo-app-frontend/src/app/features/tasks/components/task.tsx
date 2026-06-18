@@ -1,7 +1,7 @@
 import {
   Card,
+  CardAction,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -9,6 +9,8 @@ import {
 import Status from "@/types/status";
 import TaskStatus from "./task-status";
 import formatDate from "@/lib/utils";
+import { Pencil, Trash } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface TaskProps {
   id: number;
@@ -16,6 +18,9 @@ interface TaskProps {
   name: string;
   description?: string;
   status: Status;
+  onDelete: () => unknown;
+  onEdit: () => unknown;
+  onUpdateStatus: () => unknown;
 }
 
 export default function Task({
@@ -23,15 +28,30 @@ export default function Task({
   name,
   description,
   status,
+  onDelete,
+  onEdit,
+  onUpdateStatus,
 }: TaskProps) {
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex flex-col space-y-2">
+        <div className="flex space-x-2">
+          <CardAction onClick={onEdit}>
+            <Pencil />
+          </CardAction>
+
+          <CardAction onClick={onDelete}>
+            <Trash />
+          </CardAction>
+        </div>
+
         <CardTitle>{name}</CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
-      <CardContent>
-        <TaskStatus status={status} />
+      <CardContent className="flex flex-col space-y-3">
+        <p>{description}</p>
+        <Button onClick={onUpdateStatus} variant="ghost">
+          <TaskStatus status={status} />
+        </Button>
       </CardContent>
       <CardFooter>{formatDate(createdAt)}</CardFooter>
     </Card>

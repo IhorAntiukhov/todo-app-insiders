@@ -12,10 +12,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function SignInPage() {
   const router = useRouter();
+
+  const [error, setError] = useState("");
 
   const {
     control,
@@ -33,9 +36,12 @@ export default function SignInPage() {
     mutationFn: ({ email, password }: SignInFormValues) =>
       signIn(email, password),
     onSuccess: () => {
+      setError("");
       router.replace("/");
     },
-    onError: () => {},
+    onError: (error) => {
+      setError(error.message);
+    },
   });
 
   const handleSignIn = handleSubmit(async (formData) => {
@@ -68,6 +74,8 @@ export default function SignInPage() {
             <Button variant="default" type="submit" className="w-full">
               Sign in
             </Button>
+
+            {error && <p className="text-red-500">Error: {error}</p>}
           </form>
 
           <CardFooter>

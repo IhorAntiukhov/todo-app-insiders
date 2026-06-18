@@ -9,18 +9,21 @@ import { UpdateStatusDto } from "./dto/updateStatus.dto";
 export class TaskService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAll({ userId, status }: GetAllTasksDto) {
+  async findAll({ status }: GetAllTasksDto, userId: string) {
     return await this.prismaService.task.findMany({
       where: {
         userId,
         status,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   }
 
-  async create(dto: CreateTaskDto) {
+  async create(dto: CreateTaskDto, userId: string) {
     return await this.prismaService.task.create({
-      data: dto,
+      data: { ...dto, userId },
     });
   }
 
