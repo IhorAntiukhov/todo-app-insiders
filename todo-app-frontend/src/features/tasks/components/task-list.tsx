@@ -46,7 +46,7 @@ export default function TaskList() {
   return (
     <div className="flex space-x-3">
       <div className="space-y-3">
-        <TaskForm editId={editId} setEditId={setEditId} />
+        <TaskForm editId={editId} setEditId={setEditId} status={status} />
 
         <TaskFiltering status={status} setStatus={setStatus} />
       </div>

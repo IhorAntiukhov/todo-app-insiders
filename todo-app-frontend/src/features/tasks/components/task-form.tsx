@@ -16,13 +16,15 @@ import React, { useState } from "react";
 import updateTask from "../api/updateTask";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import Status from "@/types/status";
 
 interface TaskForm {
   editId: number | null;
   setEditId: React.Dispatch<React.SetStateAction<number | null>>;
+  status: Status | undefined;
 }
 
-export default function TaskForm({ editId, setEditId }: TaskForm) {
+export default function TaskForm({ editId, setEditId, status }: TaskForm) {
   const queryClient = useQueryClient();
 
   const [error, setError] = useState("");
