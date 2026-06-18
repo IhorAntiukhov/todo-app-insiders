@@ -40,6 +40,7 @@ export class AuthService {
   }
 
   async signIn({ email, password }: SignInDto, response: Response) {
+    console.log(email, password);
     const existingUser = await this.findUserByEmail(email);
 
     if (!existingUser) {
@@ -54,6 +55,7 @@ export class AuthService {
 
     const { accessToken, refreshToken } = await this.generateTokens(
       existingUser.id,
+      existingUser.email,
     );
 
     response.cookie("access_token", accessToken, this.getCookieOptions(true));
@@ -70,24 +72,19 @@ export class AuthService {
     });
   }
 
-  private async generateTokens(id: string) {
+  private async generateTokens(id: string, email: string) {
+    const payload = {
+      id,
+      email,
+    };
+
     return {
-      accessToken: await this.jwtService.signAsync(
-        {
-          id,
-        },
-        {
-          expiresIn: "15m",
-        },
-      ),
-      refreshToken: await this.jwtService.signAsync(
-        {
-          id,
-        },
-        {
-          expiresIn: "7d",
-        },
-      ),
+      accessToken: await this.jwtService.signAsync(payload, {
+        expiresIn: "15m",
+      }),
+      refreshToken: await this.jwtService.signAsync(payload, {
+        expiresIn: "7d",
+      }),
     };
   }
 

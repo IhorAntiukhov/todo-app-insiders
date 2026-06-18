@@ -1,0 +1,27 @@
+import { NextRequest, NextResponse } from "next/server";
+
+export async function proxy(req: NextRequest) {
+  const accessToken = req.cookies.get("access_token")?.value;
+
+  if (!accessToken) {
+    return NextResponse.redirect(new URL("/sign-in", req.url));
+  }
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    return NextResponse.redirect(new URL("/sign-in", req.url));
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    "/((?!sign-in|sign-up|api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+  ],
+};
