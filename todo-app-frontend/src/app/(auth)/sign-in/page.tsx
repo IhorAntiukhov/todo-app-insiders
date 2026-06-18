@@ -1,13 +1,13 @@
 "use client";
 
-import signIn from "@/app/features/auth/api/signIn";
-import {
-  SignInFormValues,
-  signInSchema,
-} from "@/app/features/auth/forms/signInSchema";
 import FormInput from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
+import signIn from "@/features/auth/api/signIn";
+import {
+  SignInFormValues,
+  signInSchema,
+} from "@/features/auth/forms/signInSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";

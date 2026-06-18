@@ -13,7 +13,6 @@ import { Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface TaskProps {
-  id: number;
   createdAt: string;
   name: string;
   description?: string;
